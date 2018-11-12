@@ -18,16 +18,14 @@ class FW_Extension_Bears_Import_Demo extends FW_Extension {
     public function import_demo_register_ref_page() {
         add_submenu_page(
             'tools.php',
-            __( 'Import Demo', 'educlever' ),
-            __( 'Import Demo', 'educlever' ),
+            __( 'Import Demo', 'fw' ),
+            __( 'Import Demo', 'fw' ),
             'manage_options',
             'import-demo-page',
             array( $this, 'import_demo_page_callback' ) );
     }
 
     public function import_demo_page_callback() {
-        ?>
-        Hello
-        <?php
+        include __DIR__ . '/templates/import-demo-page.php';
     }
 }
