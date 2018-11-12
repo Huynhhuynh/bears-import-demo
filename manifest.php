@@ -3,5 +3,5 @@
 $manifest = array();
 
 // $manifest['standeduclever'] = true;
-// $manifest['version']    = '1.0.0';
+$manifest['version']    = '1.0.1';
 $manifest['github_repo'] = 'https://github.com/Huynhhuynh/bears-import-demo';
