@@ -1,0 +1,28 @@
+.swal-footer {
+    // background-color: rgb(245, 248, 250);
+    margin-top: 32px;
+    border-top: 1px solid #E9EEF1;
+    overflow: hidden;
+}
+.swal-content{
+    .warning-content-before-import{
+        font-size: 14px;
+        line-height: 20px;
+        text-align: left;
+        padding: 10px 10px 10px 20px;
+        background: #fff7ec;
+        border-left: 4px solid #ffce2e;
+    }
+}
+.swal-button{
+    transition: .3s ease;
+    -webkit-transition: .3s ease;
+}
+.swal-button.btn-primary {
+    background-color: $main-color;
+    border: none;
+    color: #FFF;
+    &:hover{
+        background-color: lighten($main-color, 15%);
+    }
+}
