@@ -14,8 +14,20 @@ class FW_Extension_Bears_Import_Demo extends FW_Extension {
     }
 
     public function hooks() {
-        add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
-        add_action( 'admin_menu', array( $this, 'import_demo_register_ref_page' ) );   
+        if( class_exists( 'Bears_Backup' ) ) {
+            add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
+            add_action( 'admin_menu', array( $this, 'import_demo_register_ref_page' ) );   
+        } else {
+            add_action( 'admin_notices', array( $this, 'admin_notice_import_warning' ) );
+        }
+    }
+
+    public function admin_notice_import_warning() {
+        ?>
+        <div class="notice notice-info is-dismissible">
+            <p>You need install Bears Backup plugin (<a href="http://download.bearsthemespremium.com/bears-backup.zip" target="_blank">download here</a>) for import demo content. Thanks!</p>
+        </div>
+        <?php
     }
 
     public function admin_scripts() {
