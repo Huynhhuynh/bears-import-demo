@@ -24,8 +24,8 @@ class FW_Extension_Bears_Import_Demo extends FW_Extension {
 
     public function admin_notice_import_warning() {
         ?>
-        <div class="notice notice-info is-dismissible">
-            <p>You need install Bears Backup plugin (<a href="http://download.bearsthemespremium.com/bears-backup.zip" target="_blank">download here</a>) for import demo content. Thanks!</p>
+        <div class="notice notice-error is-dismissible">
+            <p>You need install <b>Bears Backup</b> plugin (<a href="http://download.bearsthemespremium.com/bears-backup.zip" target="_blank">download here</a>) for import demo content. Thanks!</p>
         </div>
         <?php
     }
