@@ -17,7 +17,9 @@ $packages = $ext->get_config('packages');
     
     <div class="import-container">
         <div class="b-row">
-            <?php foreach( $packages as $key => $package ) { ?>
+            <?php 
+            if( count( $packages ) > 0 ) {
+            foreach( $packages as $key => $package ) { ?>
                 <div class="b-col-3">
                     <div class="package-item">
                         <div class="thumbnail">
@@ -38,7 +40,11 @@ $packages = $ext->get_config('packages');
                         </div>
                     </div>
                 </div>
-            <?php } ?>
+            <?php 
+                } 
+            } else {
+                _e( 'Empty demo!', 'fw' );
+            } ?>
         </div>
     </div>
     

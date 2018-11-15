@@ -22,16 +22,41 @@ import bears_import_demo_swal from 'sweetalert';
                 // console.log( res );
                 if( success_callback ) success_callback.call( params, res );
                 if( true == res.success ) {
-                    import_request( res.data, success_callback, error_callback );
+                    if( res.data.action ) {
+                        switch( res.data.action.type ) {
+                            case 'redirect_url':
+                                w.location.href = res.data.action.url;
+                                break;
+                        }
+                    } else {
+                        import_request( res.data, success_callback, error_callback );
+                    }
                 } else {
-                    import_request( params, success_callback, error_callback );
+                    // import_request( params, success_callback, error_callback );
+                    var error_res = JSON.stringify( res );
+                    $html_message = $('<div>', {
+                        html: `
+                        <pre>${error_res}</pre>
+                        Please try again or contact with our support team! <a href="https://bearsthemes.ticksy.com" target="_blank">Open ticket</a>`,
+                    });
+                    swal({
+                        title: 'Internal Error!',
+                        content: $html_message[0],
+                        icon: 'error',
+                        buttons: false,
+                    });
                 }
             },
             error ( e ) {
                 // console.log( e );
                 if( error_callback ) error_callback.call( params, e );
+                
+                $html_message = $('<div>', {
+                    html: `Please try again or contact with our support team! <a href="https://bearsthemes.ticksy.com" target="_blank">Open ticket</a>`,
+                });
                 swal({
-                    title: 'Error!',
+                    title: 'Internal Error!',
+                    content: $html_message[0],
                     icon: 'error',
                     buttons: false,
                 });

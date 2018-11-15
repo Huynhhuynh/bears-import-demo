@@ -29,9 +29,13 @@ if(! function_exists('bears_import_demo_ajax_request_step_func')) {
         $pass_all_steps = $current_step_num > (count( $steps ) - 1);
         if( true == $pass_all_steps ) {
             wp_send_json_success( array(
-                'message' => __( 'Import demo successful!', 'fw' ),
+                'message' => __( 'Import demo successful and return home page now, Thank you so much ✌!', 'fw' ),
                 'success' => true,
                 'pass_all_step' => true,
+                'action' => array(
+                    'type' => 'redirect_url',
+                    'url' => get_home_url(),
+                )
             ) );
         }
        
@@ -62,6 +66,11 @@ if(! function_exists('bears_import_demo_import_steps')) {
     function bears_import_demo_import_steps() {
         $steps = apply_filters( 'bears_import_demo_import_steps_filter', array(
             array(
+                'name' => __( 'Backup current database & media', 'fw' ),
+                'handle' => 'bears_import_demo_step_backup_func',
+                'desc' => '',
+            ),
+            array(
                 'name' => __( 'Download package', 'fw' ),
                 'handle' => 'bears_import_demo_step_download_package_func',
                 'desc' => '',
@@ -79,6 +88,77 @@ if(! function_exists('bears_import_demo_import_steps')) {
         ));
 
         return $steps;
+    }
+}
+
+if(! function_exists('bears_import_demo_step_backup_func')) {
+    /**
+     * @since 1.0.0
+     * 
+     */
+    function bears_import_demo_step_backup_func( $params = array() ) {
+        $backup_process = isset( $params['backup_process'] ) ? $params['backup_process'] : 'backup_database';
+        if( ! isset( $params['backup_process'] ) ) {
+            $params['backup_process'] = $backup_process;
+        }
+
+        $result = array();
+        switch( $backup_process ) {
+            case 'backup_database':
+                // backup_database
+                $backup_result = BBACKUP_Backup_Database( array(), '' );
+
+                if( $backup_result['success'] == true ) {
+                    $result = array(
+                        'message' => sprintf( __( 'Backup — %s', 'jayla' ),  $backup_result['message'] ),
+                        'bk_folder_name' => $backup_result['bk_folder_name'],
+                        'backup_process' => 'backup_create_file_config',
+                    );
+                } else {
+                    $result = array(
+                        'message' => sprintf( __( 'Backup — %s', 'jayla' ),  $backup_result['message'] ),
+                    );
+                }
+                break;
+
+            case 'backup_create_file_config': 
+                $backup_params = array(
+                    'bk_folder_name' => $params['bk_folder_name'],
+                );
+
+                $backup_result = BBACKUP_Create_File_Config($backup_params, '');
+                if( $backup_result['success'] == true ) {
+                    $result = array(
+                        'message' => sprintf( __( 'Backup — %s', 'fw' ),  $backup_result['message'] ),
+                        'backup_process' => 'backup_backup_folder_upload',
+                    );
+                } else {
+                    $result = array(
+                        'message' => sprintf( __( 'Backup — %s', 'fw' ),  $backup_result['message'] ),
+                    );
+                }
+                break;
+
+            case 'backup_backup_folder_upload': 
+                $backup_params = array(
+                    'bk_folder_name' => $params['bk_folder_name'],
+                );
+
+                $backup_result = BBACKUP_Backup_Folder_Upload($backup_params, '');
+                if( $backup_result['success'] == true ) {
+                    $result = array(
+                        'message' => __('Backup database and media successful, Next step...', 'fw'),
+                        'current_step_num' => $params['current_step_num'] + 1,
+                    );
+                } else {
+                    $result = array(
+                        'message' => sprintf( __( 'Backup — %s', 'fw' ),  $backup_result['message'] )
+                    );
+                }
+                break;
+        }
+
+        return wp_parse_args( $result, $params );
     }
 }
 
@@ -181,12 +261,16 @@ if(! function_exists('bears_import_demo_step_replace_database_func')) {
         $wp_filesystem->delete( $params['package_demo_path'] , true );
 
         if( isset($restore_data['success']) && $restore_data['success'] == true ) {
-            $result = array(
-                'message' => __('Install package demo successful. 👌', 'fw'),
+            $result = apply_filters( 'bears_import_demo_step_replace_database_success_result_data_filter', 
+            array(
+                'message' => __('Install package demo successful and return home page now, Thank you so much 👌!', 'fw'),
                 'restore_database_success' => true,
-                // 'extra_params' => $result,
+                'current_step_num' => $params['current_step_num'] + 1,
+                'action' => array(
+                    'type' => 'redirect_url',
+                    'url' => get_home_url(), )
+                )
             );
-            $params['current_step_num'] = $params['current_step_num'] + 1;
         } else {
             $result = array(
                 'message' => __('Install package demo false 😢! Please try again in a few minutes or contact our support team. Thank you!', 'fw'),

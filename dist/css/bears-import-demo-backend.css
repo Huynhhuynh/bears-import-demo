@@ -86,10 +86,11 @@
         z-index: 3; }
         .bears-import-demo-main-classes .import-container .package-item .thumbnail .group-buttons .link-preview,
         .bears-import-demo-main-classes .import-container .package-item .thumbnail .group-buttons .btn-import {
-          width: 150px;
+          width: 180px;
           max-width: 90%;
           text-align: center;
           display: inline-block;
+          box-sizing: border-box;
           transition: .3s ease;
           -webkit-transition: .3s ease; }
           .bears-import-demo-main-classes .import-container .package-item .thumbnail .group-buttons .link-preview > *,
