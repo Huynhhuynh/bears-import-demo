@@ -12,9 +12,10 @@ Unyson helpers import demo content ( Unyson extension )
 function yourtheme_filter_host_import_uri( $url ) {
     return 'http://package.bearsthemespremium.com/educlever/';
 }
-apply_filters( 'host_import_filter', 'yourtheme_filter_host_import_uri' );
+add_filter( 'host_import_filter', 'yourtheme_filter_host_import_uri' );
 
 /**
+ * Hook package_import_data_filter
  * Filter import demo data
  * 
  */
@@ -27,6 +28,5 @@ function yourtheme_filter_demo_import_data( $data = array() ) {
         ),
     );
 }
-
 add_filter( 'package_import_data_filter', 'yourtheme_filter_demo_import_data' );
 ```

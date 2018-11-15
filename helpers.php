@@ -262,15 +262,18 @@ if(! function_exists('bears_import_demo_step_replace_database_func')) {
 
         if( isset($restore_data['success']) && $restore_data['success'] == true ) {
             $result = apply_filters( 'bears_import_demo_step_replace_database_success_result_data_filter', 
-            array(
-                'message' => __('Install package demo successful and return home page now, Thank you so much 👌!', 'fw'),
-                'restore_database_success' => true,
-                'current_step_num' => $params['current_step_num'] + 1,
-                'action' => array(
-                    'type' => 'redirect_url',
-                    'url' => get_home_url(), )
+                array(
+                    'message' => __('Install package demo successful and return home page now, Thank you so much 👌!', 'fw'),
+                    'restore_database_success' => true,
+                    'current_step_num' => $params['current_step_num'] + 1,
+                    'action' => array(
+                        'type' => 'redirect_url',
+                        'url' => get_home_url(), 
+                    )
                 )
             );
+
+            do_action( 'bears_import_demo_step_replace_database_after_success', wp_parse_args( $result, $params ) );
         } else {
             $result = array(
                 'message' => __('Install package demo false 😢! Please try again in a few minutes or contact our support team. Thank you!', 'fw'),
