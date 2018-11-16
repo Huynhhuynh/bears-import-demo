@@ -34,7 +34,7 @@ import bears_import_demo_swal from 'sweetalert';
                 } else {
                     // import_request( params, success_callback, error_callback );
                     var error_res = JSON.stringify( res );
-                    $html_message = $('<div>', {
+                    var $html_message = $('<div>', {
                         html: `
                         <pre>${error_res}</pre>
                         Please try again or contact with our support team! <a href="https://bearsthemes.ticksy.com" target="_blank">Open ticket</a>`,
@@ -51,7 +51,7 @@ import bears_import_demo_swal from 'sweetalert';
                 // console.log( e );
                 if( error_callback ) error_callback.call( params, e );
                 
-                $html_message = $('<div>', {
+                var $html_message = $('<div>', {
                     html: `Please try again or contact with our support team! <a href="https://bearsthemes.ticksy.com" target="_blank">Open ticket</a>`,
                 });
                 swal({

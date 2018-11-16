@@ -211,11 +211,14 @@ if(! function_exists('bears_import_demo_step_extract_package_func')) {
         }
 
         if( isset( $params['path_file_package'] ) ) {
-            $zipFile = new \PhpZip\ZipFile();
-            $zipFile
-            ->openFile( $params['path_file_package'] )
-            ->extractTo( $extract_to )
-            ->close();
+            
+            global $wp_filesystem;
+            if (empty($wp_filesystem)) {
+              require_once (ABSPATH . '/wp-admin/includes/file.php');
+              WP_Filesystem();
+            }
+            
+            $unzipfile = unzip_file( $params['path_file_package'], $extract_to );
 
             // remove zip file
             wp_delete_file( $params['path_file_package'] );
