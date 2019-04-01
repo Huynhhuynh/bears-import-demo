@@ -104,14 +104,15 @@ import bears_import_demo_swal from 'sweetalert';
             var $content_modal = $(`<div class="warning-content-before-import">
                 <span class="important-tag tag-warning">Important:</span> 
                 Installing this demo content will <u><b>delete the content you currently have on your website</b></u>. However, we create a backup of your current content in <u><b>(Dashboad > Backup)</b></u>. You can restore the backup from there at any time in the future.
+                <div style="color: red;">* Please using username "admin" and password "admin" to access admin dashboard again, then change password for security</div>
             </div>`);
 
             swal({
                 title: "Are you sure?",
                 content: $content_modal[0],
-                // icon: "warning",
+                // icon: "warning", 
                 buttons: {
-                    cancel: true,
+                    cancel: true, 
                     confirm: {
                         text: "Yes!",
                         value: true,
